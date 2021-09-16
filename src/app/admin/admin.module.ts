@@ -8,6 +8,10 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { DashboardPageComponent } from './dashboard-page/dashboard-page.component';
 import { CreatePageComponent } from './create-page/create-page.component';
 import { EditPageComponent } from './edit-page/edit-page.component';
+// Services
+import { AuthService } from './services/auth.service';
+// Shared
+import { SharedModule } from '../modules/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +25,7 @@ import { EditPageComponent } from './edit-page/edit-page.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedModule,
     RouterModule.forChild([
       {
         path: '',
@@ -36,5 +41,6 @@ import { EditPageComponent } from './edit-page/edit-page.component';
     ]),
   ],
   exports: [RouterModule],
+  providers: [AuthService],
 })
 export class AdminModule {}
