@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, OperatorFunction } from 'rxjs';
-import { tap } from 'rxjs/operators/';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, Subject, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators/';
 import { environment } from 'src/environments/environment';
 // Interfaces
 import { User } from 'src/app/interfaces/user';
@@ -13,6 +13,8 @@ const URL = `
 
 @Injectable()
 export class AuthService {
+  public error$: Subject<string> = new Subject<string>();
+
   constructor(private http: HttpClient) {}
 
   get token(): string | null {
@@ -32,6 +34,7 @@ export class AuthService {
     return this.http.post(URL, user)
       .pipe(
         tap<any>(this.setToken),
+        catchError<HttpErrorResponse, any>(this.handleError.bind(this)),
       );
   }
 
@@ -41,6 +44,26 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     return !!this.token;
+  }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    const { message } = error.error.error;
+
+    switch (message) {
+      case 'EMAIL_NOT_FOUND':
+        this.error$.next('Current email not exist');
+        break;
+      case 'INVALID_EMAIL':
+        this.error$.next('Invalid email');
+        break;
+      case 'INVALID_PASSWORD':
+        this.error$.next('Invalid password');
+        break;
+      default:
+        break;
+    }
+
+    return throwError(error);
   }
 
   private setToken(response: FirebaseAuthResponse | null) {
