@@ -28,10 +28,10 @@ export class AuthService {
     return localStorage.getItem('fb-token')!;
   }
 
-  login(user: User): Observable<any> {
+  login(user: User): Observable<User | unknown> {
     user.returnSecureToken = true;
 
-    return this.http.post(URL, user)
+    return this.http.post<User>(URL, user)
       .pipe(
         tap<any>(this.setToken),
         catchError<HttpErrorResponse, any>(this.handleError.bind(this)),
