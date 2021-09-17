@@ -18,4 +18,21 @@ export class PostsService {
         date: new Date(post.date),
       })));
   }
+
+  getAll(): Observable<Post[]> {
+    return this.http.get<Post[]>(`${environment.firebaseDbUrl}/posts.json`)
+      .pipe(
+        map((response: { [key: string]: any }): Post[] => Object.keys(
+          response,
+        ).map<Post>((key) => ({
+          ...response[key],
+          id: key,
+          date: new Date(response[key].date)
+        }))),
+      );
+  }
+
+  remove(id: string): Observable<void> {
+    return this.http.delete<void>(`${environment.firebaseDbUrl}/posts/${id}.json`);
+  }
 }

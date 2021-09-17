@@ -25,6 +25,10 @@ export class LoginPageComponent implements OnInit {
       if (params.loginAgain) {
         this.message = 'Please, login';
       }
+
+      if (params.authFailed) {
+        this.message = 'Session is expired, please, login again';
+      }
     });
 
     this.form = new FormGroup({
@@ -53,7 +57,7 @@ export class LoginPageComponent implements OnInit {
 
     this.auth.login(user).subscribe(() => {
       this.form.reset();
-      this.router.navigate(['/admin', 'dashboard']);
+      this.router.navigate(['/admin', 'dashboard']).catch((error) => console.log(error));
       this.submited = false;
     }, () => {
       this.submited = false;
