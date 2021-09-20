@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Post } from 'src/app/interfaces/post';
 import { PostsService } from 'src/app/services/posts.service';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-edit-page',
@@ -20,6 +21,7 @@ export class EditPageComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private postService: PostsService,
+    private alert: AlertService,
   ) { }
 
   ngOnInit(): void {
@@ -36,7 +38,9 @@ export class EditPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.updateSub.unsubscribe();
+    if (this.updateSub) {
+      this.updateSub.unsubscribe();
+    }
   }
 
   submit(): void {
@@ -52,6 +56,7 @@ export class EditPageComponent implements OnInit, OnDestroy {
       title: this.form.value.title as string,
     }).subscribe(() => {
       this.submited = false;
+      this.alert.success('Post have been updated');
     });
   }
 }
