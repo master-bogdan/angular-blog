@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SharedModule } from 'src/app/modules/shared.module';
+import { AlertService } from '../services/alert.service';
 
 import { DashboardPageComponent } from './dashboard-page.component';
 
@@ -8,9 +10,11 @@ describe('DashboardPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DashboardPageComponent ]
+      declarations: [DashboardPageComponent],
+      imports: [SharedModule],
+      providers: [AlertService],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

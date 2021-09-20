@@ -1,4 +1,7 @@
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { PostsService } from 'src/app/services/posts.service';
+import { AlertService } from '../services/alert.service';
 
 import { CreatePageComponent } from './create-page.component';
 
@@ -8,9 +11,10 @@ describe('CreatePageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreatePageComponent ]
+      declarations: [CreatePageComponent],
+      providers: [PostsService, HttpClient, HttpHandler, AlertService],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

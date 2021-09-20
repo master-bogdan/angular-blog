@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SharedModule } from 'src/app/modules/shared.module';
 
 import { HomePageComponent } from './home-page.component';
 
@@ -8,9 +9,10 @@ describe('HomePageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HomePageComponent ]
+      declarations: [HomePageComponent],
+      imports: [SharedModule],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
